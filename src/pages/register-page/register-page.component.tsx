@@ -1,52 +1,52 @@
-import React from 'react';
-import CardForm from '../../components/card-form/card-form.component';
-import InputField from '../../components/input-field/input-field.component';
-import IdeasImage from './../../assets/images/ideas-undraw.svg';
+import React from "react";
+import CardForm from "../../components/card-form/card-form.component";
+import InputField from "../../components/input-field/input-field.component";
+import IdeasImage from "./../../assets/images/ideas-undraw.svg";
 import {
   validateEmail,
   validateUsername,
   validatePassword
-} from '../../utils/validations';
-import useForm from '../../effects/useForm.effect';
-import { connect } from 'react-redux';
-import { GlobalState } from '../../redux/root-reducer';
-import { fetchApi } from '../../redux/fetch/fetch.actions';
-import { Dispatch } from 'redux';
-import { User } from '../../@types/user.interfaces';
-import { IRegisterPayload } from '../../redux/user/user.actions';
+} from "../../utils/validations";
+import useForm from "../../effects/useForm.effect";
+import { connect } from "react-redux";
+import { GlobalState } from "../../redux/root-reducer";
+import { fetchApi } from "../../redux/fetch/fetch.actions";
+import { Dispatch } from "redux";
+import { User } from "../../@types/user.interfaces";
+import { IRegisterPayload } from "../../redux/user/user.actions";
 
 interface IProps {
   user: User | null;
   isFetching?: boolean;
   error?: string;
-  register: (data: IRegisterPayload['data']) => void;
+  register: (data: IRegisterPayload["data"]) => void;
 }
 
-function RegisterPagePlain ({ user, isFetching, error, register }: IProps){
-  const [ data, handleChange, handleSubmit, submitErrors ] = useForm(
+function RegisterPagePlain({ user, isFetching, error, register }: IProps) {
+  const [data, handleChange, handleSubmit, submitErrors] = useForm(
     {
       email: {
-        value: '',
+        value: "",
         validation: validateEmail,
-        error: ''
+        error: ""
       },
       username: {
-        value: '',
+        value: "",
         validation: validateUsername,
-        error: ''
+        error: ""
       },
       fullname: {
-        value: ''
+        value: ""
       },
       password: {
-        value: '',
+        value: "",
         validation: validatePassword,
-        error: ''
+        error: ""
       },
       confirmPassword: {
-        value: '',
+        value: "",
         isPasswordConfirmation: true,
-        error: ''
+        error: ""
       }
     },
     () => {
@@ -63,18 +63,19 @@ function RegisterPagePlain ({ user, isFetching, error, register }: IProps){
 
   return (
     <CardForm
-      title="Welcome to UIGram !"
+      title="Welcome to Design Space !"
       actionButtonText="Register"
       additional={{
         img: IdeasImage,
-        main: 'Explore new ideas',
-        actionText: 'Already got an account?',
-        sub: 'with us!',
-        link: { text: 'Login', path: '/login' }
+        main: "Explore new ideas",
+        actionText: "Already got an account?",
+        sub: "with us!",
+        link: { text: "Login", path: "/login" }
       }}
       isFetching={isFetching}
-      error={submitErrors ? submitErrors : error ? error : ''}
-      onSubmit={handleSubmit}>
+      error={submitErrors ? submitErrors : error ? error : ""}
+      onSubmit={handleSubmit}
+    >
       <InputField
         errorMessage={email.error}
         type="text"
@@ -123,7 +124,9 @@ const mapStateToProps = ({
     isFetching: { REGISTER: isFetching },
     errors: { REGISTER: error }
   },
-  user: { self: { data } }
+  user: {
+    self: { data }
+  }
 }: GlobalState) => ({
   isFetching,
   error,
@@ -131,11 +134,12 @@ const mapStateToProps = ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  register: (data: IRegisterPayload['data']) =>
-    dispatch(fetchApi({ name: 'REGISTER', data }))
+  register: (data: IRegisterPayload["data"]) =>
+    dispatch(fetchApi({ name: "REGISTER", data }))
 });
 
-const RegisterPage = connect(mapStateToProps, mapDispatchToProps)(
-  RegisterPagePlain
-);
+const RegisterPage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RegisterPagePlain);
 export default RegisterPage;

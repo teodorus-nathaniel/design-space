@@ -1,59 +1,56 @@
-import './sidenav.styles.scss';
+import "./sidenav.styles.scss";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import Logo from '../../assets/images/uigram-transparent.png';
-import BookmarkIcon from '../icons/bookmark/bookmark.component';
-import FollowersIcon from '../icons/followers/followers.component';
-import FollowingIcon from '../icons/following/following.component';
-import IconImage from '../icons/icon-image.component';
-import SunIcon from '../icons/sun/sun.component';
-import { Link, useLocation } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import ColorModeActionAPI from '../../redux/color-mode/color-mode.actions';
+import Logo from "../../assets/images/logo.jpg";
+import BookmarkIcon from "../icons/bookmark/bookmark.component";
+import FollowersIcon from "../icons/followers/followers.component";
+import FollowingIcon from "../icons/following/following.component";
+import IconImage from "../icons/icon-image.component";
+import SunIcon from "../icons/sun/sun.component";
+import { Link, useLocation } from "react-router-dom";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import ColorModeActionAPI from "../../redux/color-mode/color-mode.actions";
 
 interface IProps {
   changeColorMode: () => void;
 }
 
-function SidenavPlain ({ changeColorMode }: IProps){
-  const [ isHovered, setIsHovered ] = useState(false);
-  const [ isScrolled, setIsScrolled ] = useState(false);
+function SidenavPlain({ changeColorMode }: IProps) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const location = useLocation();
 
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
 
-  useEffect(
-    () => {
-      function handleScrolled (){
-        if (window.scrollY >= 30 && !isScrolled) setIsScrolled(true);
-        else if (window.scrollY < 30 && isScrolled) setIsScrolled(false);
-      }
-      window.addEventListener('scroll', handleScrolled);
-      return () => {
-        window.removeEventListener('scroll', handleScrolled);
-      };
-    },
-    [ isScrolled ]
-  );
+  useEffect(() => {
+    function handleScrolled() {
+      if (window.scrollY >= 30 && !isScrolled) setIsScrolled(true);
+      else if (window.scrollY < 30 && isScrolled) setIsScrolled(false);
+    }
+    window.addEventListener("scroll", handleScrolled);
+    return () => {
+      window.removeEventListener("scroll", handleScrolled);
+    };
+  }, [isScrolled]);
 
   const navigations = [
     {
-      path: '/saved',
-      name: 'Saved',
+      path: "/saved",
+      name: "Saved",
       icon: BookmarkIcon
     },
     {
-      path: '/profile/self#following',
-      name: 'Following',
+      path: "/profile/self#following",
+      name: "Following",
       icon: FollowingIcon
     },
     {
-      path: '/profile/self#followers',
-      name: 'Followers',
+      path: "/profile/self#followers",
+      name: "Followers",
       icon: FollowersIcon
     }
   ];
@@ -62,9 +59,10 @@ function SidenavPlain ({ changeColorMode }: IProps){
     <aside
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="sidenav">
+      className="sidenav"
+    >
       <ul>
-        <li className={`sidenav__logo ${isScrolled ? '' : 'hide'}`}>
+        <li className={`sidenav__logo ${isScrolled ? "" : "hide"}`}>
           <Link to="/">
             <IconImage src={Logo} alt="Logo" />
             <span>Home</span>
@@ -76,29 +74,17 @@ function SidenavPlain ({ changeColorMode }: IProps){
               <Icon
                 noHover
                 color={
-                  isHovered ? (
-                    'white'
-                  ) : location.pathname === path ? (
-                    '#00a3ff'
-                  ) : (
-                    undefined
-                  )
+                  isHovered
+                    ? "white"
+                    : location.pathname === path
+                    ? "#00a3ff"
+                    : undefined
                 }
               />
               <span>{name}</span>
             </Link>
           </li>
         ))}
-        <li
-          onClick={() => {
-            changeColorMode();
-            document.body.classList.toggle('dark');
-          }}>
-          <div>
-            <SunIcon noHover color={isHovered ? 'white' : undefined} />
-            <span className="cursor">Color Mode</span>
-          </div>
-        </li>
       </ul>
     </aside>
   );

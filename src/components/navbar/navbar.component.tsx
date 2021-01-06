@@ -1,12 +1,12 @@
-import './navbar.styles.scss';
+import "./navbar.styles.scss";
 
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
-import Logo from './../../assets/images/uigram-transparent.png';
-import { User } from '../../@types/user.interfaces';
-import { GlobalState } from '../../redux/root-reducer';
-import { connect } from 'react-redux';
+import Logo from "./../../assets/images/logo.jpg";
+import { User } from "../../@types/user.interfaces";
+import { GlobalState } from "../../redux/root-reducer";
+import { connect } from "react-redux";
 
 interface IProps {
   user: User | null;
@@ -15,29 +15,29 @@ interface IProps {
 const navigations = {
   user: [
     {
-      link: '/add-post',
-      text: 'Share your Design!',
+      link: "/add-post",
+      text: "Share your Design!",
       inverted: true
     },
     {
-      link: '/profile/self',
-      text: 'Profile'
+      link: "/profile/self",
+      text: "Profile"
     }
   ],
   noUser: [
     {
-      link: '/register',
-      text: 'Join us!',
+      link: "/register",
+      text: "Join us!",
       inverted: true
     },
     {
-      link: '/login',
-      text: 'Login'
+      link: "/login",
+      text: "Login"
     }
   ]
 };
 
-function NavbarPlain ({ user }: IProps){
+function NavbarPlain({ user }: IProps) {
   const usedNav = user ? navigations.user : navigations.noUser;
 
   return (
@@ -49,7 +49,7 @@ function NavbarPlain ({ user }: IProps){
       </div>
       <ul>
         {usedNav.map(({ link, text, inverted }) => (
-          <li key={link} className={`${inverted ? 'inverted' : ''}`}>
+          <li key={link} className={`${inverted ? "inverted" : ""}`}>
             <Link to={link}>{text}</Link>
           </li>
         ))}
@@ -58,7 +58,11 @@ function NavbarPlain ({ user }: IProps){
   );
 }
 
-const mapStateToProps = ({ user: { self: { data } } }: GlobalState) => ({
+const mapStateToProps = ({
+  user: {
+    self: { data }
+  }
+}: GlobalState) => ({
   user: data
 });
 

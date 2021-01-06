@@ -3,11 +3,11 @@
   border: 1px solid var(--link-color);
   color: white;
   border-radius: 5px;
-  padding: .75em 1.5em;
+  padding: 0.75em 1.5em;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 250ms border-color 250ms;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-size: 1em;
   transition: background-color 250ms ease-out, color 250ms ease-out,
     border 250ms ease-out;
@@ -15,7 +15,7 @@
   &.full {
     padding: 0;
     > * {
-      padding: .75em 1.5em;
+      padding: 0.75em 1.5em;
       height: 100%;
       width: 100%;
       display: block;

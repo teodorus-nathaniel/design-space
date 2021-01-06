@@ -1,11 +1,11 @@
-@import './../../shared/scss/shared';
+@import "./../../shared/scss/shared";
 
 .tab-layout {
   @include flex-box(row, center, center);
-  background-color: var(--primary-color);
+  background-color: white;
   width: 100%;
   margin-bottom: 5px;
-  box-shadow: 0px 5px 5px rgba(100, 100, 100, .1);
+  box-shadow: 0px 5px 5px rgba(100, 100, 100, 0.1);
   height: 45px;
   position: relative;
 
@@ -18,13 +18,14 @@
     height: 100%;
     color: var(--text-color);
     transition: background-color 200ms ease-out;
+    cursor: pointer;
 
     &:hover {
-      background-color: var(--primary-color-darken);
+      background-color: rgba(230, 230, 230, 0.95);
     }
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       height: 50%;
       top: 50%;
@@ -44,7 +45,6 @@
       color: currentColor;
       padding: 10px 15px;
       vertical-align: center;
-      cursor: pointer;
       transform: translateY(2px);
       border-bottom: 0px solid currentColor;
       transition: border-bottom 200ms ease-out;

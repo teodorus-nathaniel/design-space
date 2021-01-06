@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-import './tab-layout.styles.scss';
-import gsap from 'gsap';
+import React, { useEffect, useRef, useState } from "react";
+import "./tab-layout.styles.scss";
+import gsap from "gsap";
 
 interface IProps {
   tabs: string[];
@@ -10,21 +10,21 @@ interface IProps {
   getSavedState?: () => any;
 }
 
-export default function TabLayout ({
+export default function TabLayout({
   tabs,
   activeTab,
   setActiveTab,
   getSavedState,
   saveState
-}: IProps){
-  const [ scrollOffset, setScrollOffset ] = useState(
+}: IProps) {
+  const [scrollOffset, setScrollOffset] = useState(
     Array.from({ length: tabs.length }).map(() => 0)
   );
   const borderRef = useRef<HTMLDivElement>(null);
 
   const setActiveTabAndSaveOffset = (idx: number) => {
     setScrollOffset((s) => {
-      const newState = [ ...s ];
+      const newState = [...s];
       newState[activeTab] = window.scrollY;
       return newState;
     });
@@ -32,78 +32,70 @@ export default function TabLayout ({
     setActiveTab(idx);
   };
 
-  useEffect(
-    () => {
-      if (getSavedState) {
-        const prevState = getSavedState();
-        if (!prevState.activeTab || !prevState.scrollOffset) return;
-        setActiveTab(prevState.activeTab);
-        setScrollOffset(prevState.scrollOffset);
+  useEffect(() => {
+    if (getSavedState) {
+      const prevState = getSavedState();
+      if (!prevState.activeTab || !prevState.scrollOffset) return;
+      setActiveTab(prevState.activeTab);
+      setScrollOffset(prevState.scrollOffset);
+    }
+  }, [getSavedState, setActiveTab]);
+
+  useEffect(() => {
+    return () => {
+      if (saveState) {
+        const newState = [...scrollOffset];
+        newState[activeTab] = window.scrollY;
+        saveState({
+          activeTab,
+          scrollOffset: newState
+        });
       }
-    },
-    [ getSavedState, setActiveTab ]
-  );
+    };
+  }, [saveState, activeTab, scrollOffset]);
 
-  useEffect(
-    () => {
-      return () => {
-        if (saveState) {
-          const newState = [ ...scrollOffset ];
-          newState[activeTab] = window.scrollY;
-          saveState({
-            activeTab,
-            scrollOffset: newState
-          });
-        }
-      };
-    },
-    [ saveState, activeTab, scrollOffset ]
-  );
+  useEffect(() => {
+    window.scrollTo({
+      top: scrollOffset[activeTab]
+    });
+  }, [activeTab, scrollOffset]);
 
-  useEffect(
-    () => {
-      window.scrollTo({
-        top: scrollOffset[activeTab]
-      });
-    },
-    [ activeTab, scrollOffset ]
-  );
-
-  useEffect(
-    () => {
-      if (borderRef.current) {
-        gsap
-          .timeline()
-          .to(
-            borderRef.current,
-            {
-              duration: 0.2,
-              css: {
-                opacity: 0
-              }
-            },
-            'start'
-          )
-          .to(
-            borderRef.current,
-            {
-              duration: 0.2,
-              css: {
-                opacity: 1
-              }
-            },
-            '+=0.20'
-          );
-      }
-    },
-    [ borderRef, tabs, activeTab ]
-  );
+  useEffect(() => {
+    if (borderRef.current) {
+      gsap
+        .timeline()
+        .to(
+          borderRef.current,
+          {
+            duration: 0.2,
+            css: {
+              opacity: 0
+            }
+          },
+          "start"
+        )
+        .to(
+          borderRef.current,
+          {
+            duration: 0.2,
+            css: {
+              opacity: 1
+            }
+          },
+          "+=0.20"
+        );
+    }
+  }, [borderRef, tabs, activeTab]);
 
   return (
     <div className="tab-layout">
       {tabs.map((tab, idx) => (
-        <div className={`tab${idx === activeTab ? '-active' : ''}`} key={tab}>
-          <span onClick={() => setActiveTabAndSaveOffset(idx)}>{tab}</span>
+        <div
+          className={`tab${idx === activeTab ? "-active" : ""}`}
+          key={tab}
+          onClick={() => setActiveTabAndSaveOffset(idx)}
+        >
+          <span>{tab}</span>
         </div>
       ))}
       <div
